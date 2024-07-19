@@ -1,6 +1,6 @@
 import pygame
-import random
 import backgroundLogic
+#import secondaryFunc
 
 
 # инициализируем библиотеку Pygame
@@ -24,12 +24,39 @@ screen.fill(background_color)
 # обновляем экран для отображения изменений
 pygame.display.flip()
 
-backgroundLogic.choose_background(screen)
+background = backgroundLogic.choose_background(screen)
+backgroundTransp = 255
+changeNow = False
 
-# показываем окно, пока пользователь не нажмет кнопку "Закрыть"
-while True:
+runningTime = 0
+
+run = True
+while run:
+    pygame.time.delay(50)
+    runningTime += 50
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
+            run = False
+
+    if runningTime % 30000 == 0:
+        background = backgroundLogic.change_background(screen, background[1])
+        changeNow = True
+        backgroundTransp = 0
+
+    if changeNow:
+        if backgroundTransp >= 254:
+            backgroundTransp = 255
+            changeNow = False
+        else:
+            backgroundTransp += 1
+        background[0].set_alpha(backgroundTransp)
+
+    screen.blit(background[0], (0, 0))
+
+    pygame.display.update()
+
+
+pygame.quit()
+exit()
 
