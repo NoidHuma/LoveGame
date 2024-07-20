@@ -1,6 +1,6 @@
 import pygame
 import backgroundLogic
-#import secondaryFunc
+# import secondaryFunc
 
 
 # инициализируем библиотеку Pygame
@@ -24,36 +24,52 @@ screen.fill(background_color)
 # обновляем экран для отображения изменений
 pygame.display.flip()
 
+# выбор фонового изображения
 background = backgroundLogic.choose_background(screen)
-backgroundTransp = 255
+
+#
+clock = pygame.time.Clock()
+
+
+# переменные для смены фона
+backgroundTransp = 255.0
+backgroundTranspAcceler = 0.0
 changeNow = False
 
-runningTime = 0
 
 run = True
 while run:
-    pygame.time.delay(50)
-    runningTime += 50
+    # устанавливаем 30 фреймов
+    clock.tick(30)
+
 
     for event in pygame.event.get():
+        # обработка закрытия приложения
         if event.type == pygame.QUIT:
             run = False
 
-    if runningTime % 30000 == 0:
+    # смена фона
+    if pygame.time.get_ticks() % 10000 < 100:
         background = backgroundLogic.change_background(screen, background[1])
         changeNow = True
         backgroundTransp = 0
+        backgroundTranspAcceler = 0.0
 
+    # обеспечение плавности смены
     if changeNow:
-        if backgroundTransp >= 254:
+        if backgroundTransp >= 250:
             backgroundTransp = 255
             changeNow = False
         else:
-            backgroundTransp += 1
+            backgroundTransp += 0.1 + backgroundTranspAcceler
+            backgroundTranspAcceler += 0.02
         background[0].set_alpha(backgroundTransp)
 
+
+    # отрисовка фона
     screen.blit(background[0], (0, 0))
 
+    # обновление окна
     pygame.display.update()
 
 
