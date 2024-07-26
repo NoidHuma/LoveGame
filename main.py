@@ -1,9 +1,12 @@
 import pygame
 import backgroundLogic
+import random
 # import secondaryFunc
 
 
 # инициализируем библиотеку Pygame
+import musicLogic
+
 pygame.init()
 
 # определяем размеры окна
@@ -36,12 +39,17 @@ backgroundTransp = 255.0
 backgroundTranspAcceler = 0.0
 changeNow = False
 
+# фоновая музыка
+musicLogic.start_music()
+nowVolume = 0.0
 
 run = True
 while run:
     # устанавливаем 30 фреймов
     clock.tick(30)
 
+    #начало проигрывания музыки
+    nowVolume = musicLogic.volume_increase(nowVolume)
 
     for event in pygame.event.get():
         # обработка закрытия приложения
