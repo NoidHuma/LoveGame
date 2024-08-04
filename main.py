@@ -1,5 +1,6 @@
 import pygame
 import backgroundLogic
+import pygame_gui
 import random
 # import secondaryFunc
 
@@ -18,11 +19,16 @@ pygame.display.set_caption("Love Game")
 # создаем окно
 screen = pygame.display.set_mode(window_size)
 
+#устанавливаем иконку окна
+pygame.display.set_icon(pygame.image.load("images/icon-heart-mini.bmp"))
+
 # задаем цвет фона
 background_color = (225,132,160)
 
 # заполняем фон заданным цветом
 screen.fill(background_color)
+
+manager = pygame_gui.UIManager((800, 600))
 
 # обновляем экран для отображения изменений
 pygame.display.flip()
